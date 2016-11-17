@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Pollinator</title>
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+
+  <style>
+  	#c1, #c2 {
+  		width: 33%;
+  	}
+  	#c3 {
+  		width: auto;
+  	}
+  </style>
+</head>
+
+<body>
+	<h1>Poll-inator: What is the yummiest food?</h1>
+	<div class="bottom">
+  		<div style="float: left; width: 33%;"></div>
+  		<div style="float: left; width: 33%;"></div>
+  		<div style="float: left; width: 33%;"></div>
+	</div>
+	<div id="document" style="width: 80%; height: 250px; border: 1px solid black">
+	</div><br>
+	<form>
+		<input type="text" id="userAnswer" placeholder="Add a new question">
+		<input type="submit" value="Submit">
+	</form>
+  <script src="js/scripts.js"></script>
+  <script type="text/javascript">
+	$(document).ready(function(){
+    	$('#userAnswer').keypress(function(e){
+      		if(e.which == 13){
+           	// submit via ajax or
+           	$('form').submit();
+       		}
+    	});
+	});
+</script>
+</body>
+</html>
