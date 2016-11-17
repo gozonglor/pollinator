@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Pollinator</title>
+</head>
+<style>
+h1 {
+	font-family: arial;
+}
+#new_question {
+	display: none;
+}
+
+</style>
+<body>
+<h1>The Poll-inator</h1>
+
+<div id="questions"></div>
+
+<input type="button" onclick="showNewQuestion()" value="Add new question" id="add_new_question"></input>
+
+<div id="new_question"><input type="text" id="question_field"></input><input type="button" onclick="addNewQuestion()" value="Submit"></input></div>
+
+<script>
+function showNewQuestion(){
+	document.getElementById("new_question").style.display = 'block';
+	var btn = document.getElementById("add_new_question"); 
+	btn.disabled = true;
+}
+
+function addNewQuestion(){
+	var question = document.getElementById("question_field").value;
+	var questionDiv = document.createElement("div");
+	
+	questionDiv.className = "question";
+	//questionDiv.innerHTML = "<a href='"+index2.html+"'>"+question+"</a>";
+	questionDiv.innerHTML = "<a href='index2.html'>"+question+"</a>";
+	document.getElementById("questions").append(questionDiv);
+	var btn = document.getElementById("add_new_question"); 
+	btn.disabled = false;
+}
+</script>
+
+</body>
+</html>
