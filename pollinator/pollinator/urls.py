@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
 from poll import views as poll_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^poll/', poll_views.index, name='index')
+    url(r'^$', poll_views.index, name='index'),
+    url(r'^(/?P<question_id>[0-9]+)/$', poll_views.detail, name='detail'),
+    url(r'^(/?P<question_id>[0-9]+)/results/$', poll_views.results, name='results'),
+    url(r'^(/?P<question_id>[0-9]+)/vote/$', poll_views.vote, name='vote'),
 ]
