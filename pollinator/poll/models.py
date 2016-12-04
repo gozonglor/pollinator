@@ -16,8 +16,8 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.CharField(max_length=500)
+    answer_text = models.CharField(max_length=500)
     votes = models.IntegerField(default=1)
 
     def __str__(self):
-        return 'answer: %s %s' % (self.answer, self.question)
+        return 'answer: %s %s' % (self.answer_text, self.question)

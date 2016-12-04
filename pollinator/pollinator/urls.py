@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from poll import views as poll_views
 
+app_name = 'poll'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', poll_views.index, name='index'),
-    url(r'^(/?P<question_id>[0-9]+)/$', poll_views.detail, name='detail'),
-    url(r'^(/?P<question_id>[0-9]+)/results/$', poll_views.results, name='results'),
-    url(r'^(/?P<question_id>[0-9]+)/vote/$', poll_views.vote, name='vote'),
+    url(r'^$', poll_views.IndexView.as_view(), name='index'),
+    url(r'^(?P<pk>[0-9]+)/$', poll_views.DetailView.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/results/$', poll_views.ResultsView.as_view(), name='results'),
+    url(r'^(?P<question_id>[0-9]+)/vote/$', poll_views.vote, name='vote'),
 ]

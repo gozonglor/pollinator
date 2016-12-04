@@ -1,25 +1,43 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views import generic
 
-# Create your views here.
-
-from django.http import HttpResponse
-from django.template import loader
-from .models import Question
+from .models import Answer, Question
 
 
-def index(request):
-    question_list = Question.objects.order_by('pub_date')[:5]
-    template = loader.get_template('poll/index.html')
-    context = {'question_list': question_list,
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(generic.ListView):
+    template_name = 'poll/index.html'
+    context_object_name = 'question_list'
 
-def detail(request, question_id):
-	return HttpResponse("You're looking at question %s" % question_id)
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
 
-def results(request, question_id):
-	response = "You're looking at the results of question %s."
-	return HttpResponse(response % question_id)
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'poll/detail.html'
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'poll/results.html'
 
 def vote(request, question_id):
-	return HttpResponse("You're voting on question %s." % question_id)
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_answer = question.answer_set.get(pk=request.POST['answer'])
+    except (KeyError, answer.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'poll/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a answer.",
+        })
+    else:
+        selected_answer.votes += 1
+        selected_answer.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('results', args=(question.id,)))
